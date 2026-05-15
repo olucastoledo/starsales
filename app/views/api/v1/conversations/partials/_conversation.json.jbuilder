@@ -24,6 +24,8 @@ json.meta do
     end
   end
   json.hmac_verified conversation.contact_inbox&.hmac_verified
+  ai_agent_state = conversation.ai_agent_conversation_state
+  json.ai_agent_id ai_agent_state&.ai_agent_id
 end
 
 json.id conversation.display_id

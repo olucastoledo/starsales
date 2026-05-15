@@ -13,6 +13,7 @@
 #  csat_survey_enabled           :boolean          default(FALSE)
 #  email_address                 :string
 #  enable_auto_assignment        :boolean          default(TRUE)
+#  enable_crm                    :boolean          default(FALSE)
 #  enable_email_collect          :boolean          default(TRUE)
 #  greeting_enabled              :boolean          default(FALSE)
 #  greeting_message              :string
@@ -26,12 +27,14 @@
 #  updated_at                    :datetime         not null
 #  account_id                    :integer          not null
 #  channel_id                    :integer          not null
+#  default_crm_pipeline_id       :bigint
 #  portal_id                     :bigint
 #
 # Indexes
 #
 #  index_inboxes_on_account_id                   (account_id)
 #  index_inboxes_on_channel_id_and_channel_type  (channel_id,channel_type)
+#  index_inboxes_on_default_crm_pipeline_id      (default_crm_pipeline_id)
 #  index_inboxes_on_portal_id                    (portal_id)
 #
 # Foreign Keys
@@ -72,8 +75,11 @@ class Inbox < ApplicationRecord
   has_one :assignment_policy, through: :inbox_assignment_policy
   has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
+  has_one :inbox_ai_agent, dependent: :destroy_async
+  has_one :ai_agent, through: :inbox_ai_agent
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
+  belongs_to :default_crm_pipeline, class_name: 'CrmPipeline', optional: true
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 

@@ -94,6 +94,12 @@ Rails.application.routes.draw do
             post :reset_access_token, on: :member
             post :reset_secret, on: :member
           end
+          resources :ai_agents, only: [:index, :create, :show, :update, :destroy] do
+            resources :ai_agent_tools, only: [:index, :create, :show, :update, :destroy]
+          end
+          resources :ai_agent_report_configs, only: [:index, :create, :show, :update, :destroy] do
+            member { post :send_now }
+          end
           resources :contact_inboxes, only: [] do
             collection do
               post :filter
@@ -125,6 +131,20 @@ Rails.application.routes.draw do
             end
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
+          namespace :crm do
+            resources :pipelines, only: [:index, :create, :show, :update, :destroy] do
+              resources :stages, only: [:index, :create, :update, :destroy] do
+                collection do
+                  post :reorder
+                end
+              end
+              member do
+                patch :assign_inboxes
+              end
+            end
+            resources :deals, only: [:index, :create, :show, :update, :destroy]
+            resources :deal_conversations, only: [:index, :create, :destroy]
+          end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
@@ -158,6 +178,7 @@ Rails.application.routes.draw do
               post :update_last_seen
               post :unread
               post :custom_attributes
+              post :assign_ai_agent
               get :attachments
               get :inbox_assistant
               get :reporting_events if ChatwootApp.enterprise?
@@ -251,6 +272,7 @@ Rails.application.routes.draw do
             get :campaigns, on: :member
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
+            resource :ai_agent, only: [:show, :create], controller: 'inbox_ai_agents'
             delete :avatar, on: :member
             post :sync_templates, on: :member
             get :health, on: :member

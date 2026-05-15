@@ -66,7 +66,11 @@ export default {
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
       teams: 'teams/getTeams',
+      aiAgents: 'aiAgents/getAgents',
     }),
+    aiAgentsList() {
+      return this.aiAgents.filter(agent => agent.enabled);
+    },
     hasAnAssignedTeam() {
       return !!this.currentChat?.meta?.team;
     },
@@ -148,6 +152,28 @@ export default {
           });
       },
     },
+    assignedAiAgent: {
+      get() {
+        const aiAgentId = this.currentChat.meta?.ai_agent_id;
+        if (!aiAgentId) return null;
+        return this.aiAgents.find(agent => agent.id === aiAgentId) || null;
+      },
+      set(agent) {
+        const aiAgentId = agent ? agent.id : null;
+        this.$store
+          .dispatch('assignAiAgent', {
+            conversationId: this.currentChat.id,
+            aiAgentId,
+          })
+          .then(() => {
+            if (agent) {
+              useAlert(this.$t('AI_AGENTS.ASSIGNMENT.SUCCESS'));
+            } else {
+              useAlert(this.$t('AI_AGENTS.ASSIGNMENT.REMOVED'));
+            }
+          });
+      },
+    },
     showSelfAssign() {
       if (!this.assignedAgent) {
         return true;
@@ -206,6 +232,14 @@ export default {
       this.assignedPriority = isSamePriority
         ? this.priorityOptions[0]
         : selectedPriorityItem;
+    },
+
+    onClickAssignAiAgent(selectedAgent) {
+      if (this.assignedAiAgent && this.assignedAiAgent.id === selectedAgent.id) {
+        this.assignedAiAgent = null;
+      } else {
+        this.assignedAiAgent = selectedAgent;
+      }
     },
   },
 };
@@ -279,6 +313,21 @@ export default {
           $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
         "
         @select="onClickAssignPriority"
+      />
+    </div>
+    <div>
+      <ContactDetailsItem
+        compact
+        :title="$t('AI_AGENTS.ASSIGNMENT.LABEL')"
+      />
+      <MultiselectDropdown
+        :options="aiAgentsList"
+        :selected-item="assignedAiAgent"
+        :multiselector-title="$t('AI_AGENTS.ASSIGNMENT.LABEL')"
+        :multiselector-placeholder="$t('AI_AGENTS.ASSIGNMENT.PLACEHOLDER')"
+        :no-search-result="$t('AI_AGENTS.ASSIGNMENT.NO_RESULTS')"
+        :input-placeholder="$t('AI_AGENTS.ASSIGNMENT.INPUT_PLACEHOLDER')"
+        @select="onClickAssignAiAgent"
       />
     </div>
     <ContactDetailsItem

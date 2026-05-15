@@ -140,6 +140,18 @@ class ConversationApi extends ApiClient {
   delete(conversationId) {
     return axios.delete(`${this.url}/${conversationId}`);
   }
+
+  assignAiAgent(conversationId, aiAgentId) {
+    return axios.post(`${this.url}/${conversationId}/assign_ai_agent`, {
+      ai_agent_id: aiAgentId,
+    });
+  }
+
+  unassignAiAgent(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/assign_ai_agent`, {
+      ai_agent_id: null,
+    });
+  }
 }
 
 export default new ConversationApi();

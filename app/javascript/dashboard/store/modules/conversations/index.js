@@ -134,6 +134,13 @@ export const mutations = {
     chat.priority = priority;
   },
 
+  [types.ASSIGN_AI_AGENT](_state, { conversationId, aiAgentId }) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      chat.meta.ai_agent_id = aiAgentId;
+    }
+  },
+
   [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](
     _state,
     { conversationId, customAttributes }

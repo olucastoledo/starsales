@@ -25,6 +25,7 @@ import VoiceConfigurationPage from './settingsPage/VoiceConfigurationPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
+import AiAgentConfiguration from './components/AiAgentConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
@@ -45,6 +46,7 @@ import { copyTextToClipboard } from 'shared/helpers/clipboard';
 export default {
   components: {
     BotConfiguration,
+    AiAgentConfiguration,
     CollaboratorsPage,
     ConfigurationPage,
     VoiceConfigurationPage,
@@ -221,6 +223,13 @@ export default {
           },
         ];
       }
+      visibleToAllChannelTabs = [
+        ...visibleToAllChannelTabs,
+        {
+          key: 'ai-agent-configuration',
+          name: 'Agente de IA',
+        },
+      ];
       if (this.shouldShowWhatsAppConfiguration) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
@@ -262,7 +271,7 @@ export default {
       return getInboxIconByType(type, medium, 'line');
     },
     bannerMaxWidth() {
-      const narrowTabs = ['collaborators', 'bot-configuration'];
+      const narrowTabs = ['collaborators', 'bot-configuration', 'ai-agent-configuration'];
       const wideIfWebWidget = ['configuration', 'inbox-settings'];
       if (narrowTabs.includes(this.selectedTabKey)) return 'max-w-4xl';
       if (wideIfWebWidget.includes(this.selectedTabKey)) {
@@ -1273,6 +1282,9 @@ export default {
         </div>
         <div v-if="selectedTabKey === 'bot-configuration'">
           <BotConfiguration :inbox="inbox" />
+        </div>
+        <div v-if="selectedTabKey === 'ai-agent-configuration'">
+          <AiAgentConfiguration :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'whatsapp-health'">
           <AccountHealth

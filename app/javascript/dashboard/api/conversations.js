@@ -13,6 +13,18 @@ class ConversationApi extends ApiClient {
   updateLabels(conversationID, labels) {
     return axios.post(`${this.url}/${conversationID}/labels`, { labels });
   }
+
+  assignAiAgent(conversationID, aiAgentId) {
+    return axios.post(`${this.url}/${conversationID}/assign_ai_agent`, {
+      ai_agent_id: aiAgentId,
+    });
+  }
+
+  unassignAiAgent(conversationID) {
+    return axios.post(`${this.url}/${conversationID}/assign_ai_agent`, {
+      ai_agent_id: null,
+    });
+  }
 }
 
 export default new ConversationApi();

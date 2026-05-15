@@ -1,0 +1,87 @@
+{
+  "AI_AGENTS": {
+    "HEADER": "AI Agents",
+    "DESCRIPTION": "Create and manage AI agents to handle conversations",
+    "SEARCH_PLACEHOLDER": "Search agents by name, description, or personality...",
+    "COUNT": "%{n} agent | %{n} agents",
+    "NO_RESULTS": "No agents found",
+    "LIST": {
+      "LOADING": "Loading agents...",
+      "404": "No AI agents found. Create one to get started.",
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "PERSONALITY": "Personality",
+        "MODEL": "Model",
+        "STATUS": "Status",
+        "ACTIONS": "Actions"
+      }
+    },
+    "STATUS": {
+      "ENABLED": "Enabled",
+      "DISABLED": "Disabled"
+    },
+    "ADD": {
+      "TITLE": "Create Agent"
+    },
+    "EDIT": {
+      "TITLE": "Edit Agent",
+      "BUTTON_TEXT": "Edit"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "CONFIRM": {
+        "TITLE": "Delete Agent",
+        "MESSAGE": "Are you sure you want to delete the agent '%{name}'? This action cannot be undone.",
+        "YES": "Delete",
+        "NO": "Cancel"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete agent"
+      }
+    },
+    "CREATE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Agent created successfully",
+        "ERROR_MESSAGE": "Failed to create agent"
+      }
+    },
+    "UPDATE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Agent updated successfully",
+        "ERROR_MESSAGE": "Failed to update agent"
+      }
+    },
+    "FORM": {
+      "CREATE": "Create Agent",
+      "UPDATE": "Update Agent",
+      "NAME": "Agent Name",
+      "NAME_PLACEHOLDER": "e.g., Sales Agent, Support Bot",
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Brief description of what this agent does",
+      "PERSONALITY": "Personality Type",
+      "PERSONALITY_PLACEHOLDER": "Select or customize agent personality",
+      "SYSTEM_PROMPT": "System Instructions",
+      "SYSTEM_PROMPT_PLACEHOLDER": "Define the agent's behavior, tone, and instructions. This is the core personality.",
+      "MODEL": "AI Model",
+      "TEMPERATURE": "Temperature (Creativity)",
+      "ENABLED": "Enabled",
+      "DEBOUNCE_DELAY": "Message Accumulation Delay (seconds)",
+      "DEBOUNCE_DELAY_HINT": "Wait this many seconds to accumulate burst messages before replying (1–60)",
+      "CONTEXT_WINDOW": "Context Window (messages)",
+      "CONTEXT_WINDOW_HINT": "Number of previous messages sent as context to the agent (5–200)",
+      "ERRORS": {
+        "NAME": "Agent name is required",
+        "SYSTEM_PROMPT": "System instructions are required"
+      }
+    },
+    "ASSIGNMENT": {
+      "LABEL": "AI Agent",
+      "PLACEHOLDER": "Select an AI agent",
+      "NO_RESULTS": "No agents available",
+      "INPUT_PLACEHOLDER": "Search agents...",
+      "SUCCESS": "AI agent assigned successfully",
+      "REMOVED": "AI agent removed"
+    }
+  }
+}

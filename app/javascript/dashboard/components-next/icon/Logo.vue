@@ -22,22 +22,14 @@ const globalConfig = useMapGetter('globalConfig/get');
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#woot-logo-clip-2342424e23u32098)">
-      <path
-        d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-        fill="#2781F6"
-      />
-      <path
-        d="M11.4172 11.4172H7.70831C5.66383 11.4172 4 9.75328 4 7.70828C4 5.66394 5.66383 4 7.70835 4C9.75339 4 11.4172 5.66394 11.4172 7.70828V11.4172Z"
-        fill="white"
-        stroke="white"
-        stroke-width="0.1875"
-      />
-    </g>
     <defs>
-      <clipPath id="woot-logo-clip-2342424e23u32098">
-        <rect width="16" height="16" fill="white" />
-      </clipPath>
+      <linearGradient id="ss-logo-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#075E54"/>
+        <stop offset="100%" stop-color="#25D366"/>
+      </linearGradient>
     </defs>
+    <rect width="16" height="16" rx="3.5" fill="url(#ss-logo-grad)"/>
+    <polygon points="12.5,1.5 13,2.8 14.4,2.8 13.3,3.6 13.7,4.9 12.5,4.1 11.3,4.9 11.7,3.6 10.6,2.8 12,2.8" fill="rgba(255,255,255,0.5)"/>
+    <text x="8" y="12.5" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="8.5" text-anchor="middle" fill="white" letter-spacing="-0.5">SS</text>
   </svg>
 </template>

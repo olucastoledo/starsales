@@ -99,6 +99,13 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
+  has_many :crm_pipelines, dependent: :destroy_async
+  has_many :crm_deals, dependent: :destroy_async
+  has_many :ai_agents, dependent: :destroy_async
+  has_many :ai_agent_tools, dependent: :destroy_async
+  has_many :ai_agent_conversation_states, dependent: :destroy_async
+  has_many :ai_agent_logs, dependent: :destroy_async
+  has_many :ai_agent_report_configs, dependent: :destroy_async
 
   has_one_attached :contacts_export
 

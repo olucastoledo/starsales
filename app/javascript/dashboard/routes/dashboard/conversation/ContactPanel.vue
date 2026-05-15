@@ -24,6 +24,7 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import ConversationCrmPanel from 'dashboard/components/crm/ConversationCrmPanel.vue';
 
 const props = defineProps({
   conversationId: {
@@ -312,6 +313,17 @@ onMounted(() => {
           </div>
         </template>
       </Draggable>
+
+      <!-- CRM Pipeline block — static, always at bottom -->
+      <AccordionItem
+        class="mt-3"
+        :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CRM_PIPELINE')"
+        :is-open="isContactSidebarItemOpen('is_crm_pipeline_open')"
+        compact
+        @toggle="value => toggleSidebarUIState('is_crm_pipeline_open', value)"
+      >
+        <ConversationCrmPanel :conversation-id="conversationId" />
+      </AccordionItem>
     </div>
   </div>
 </template>

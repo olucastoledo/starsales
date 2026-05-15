@@ -113,14 +113,20 @@ class Conversation < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
+  has_many :deal_conversations, dependent: :destroy_async
+  has_many :crm_deals, through: :deal_conversations, source: :crm_deal, class_name: 'Crm::Deal'
+  has_one :ai_agent_conversation_state, dependent: :destroy_async
+  has_many :ai_agent_logs, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
+  after_update_commit :pause_agents_on_human_assignment
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
+  after_create :create_deal_if_sales
 
   delegate :auto_resolve_after, to: :account
 
@@ -335,6 +341,33 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def create_deal_if_sales
+    return unless inbox.enable_crm?
+    return if crm_deals.exists?
+
+    pipeline = account.crm_pipelines.find_by(name: 'Padrão') || account.crm_pipelines.first
+    return unless pipeline
+
+    stage = pipeline.stages.order(:position).first
+    deal = account.crm_deals.create!(
+      name: contact.name,
+      crm_stage_id: stage.id,
+      description: "Cliente via #{inbox.inbox_type}: #{contact.phone_number || contact.email}"
+    )
+
+    DealConversation.create!(crm_deal: deal, conversation: self)
+  end
+
+  def pause_agents_on_human_assignment
+    return unless saved_change_to_assignee_id? && assignee_id.present?
+
+    ai_agent_states = AiAgentConversationState.where(conversation_id: id)
+    ai_agent_states.each do |state|
+      pause_service = AiAgents::PauseService.new(self, state.ai_agent)
+      pause_service.pause!(paused_by: 'human', reason: 'Human agent assigned to conversation')
+    end
   end
 
   # creating db triggers

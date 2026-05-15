@@ -531,6 +531,19 @@ const actions = {
     }
   },
 
+  assignAiAgent: async ({ commit }, { conversationId, aiAgentId }) => {
+    try {
+      if (aiAgentId) {
+        await ConversationApi.assignAiAgent(conversationId, aiAgentId);
+      } else {
+        await ConversationApi.unassignAiAgent(conversationId);
+      }
+      commit(types.ASSIGN_AI_AGENT, { conversationId, aiAgentId });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   ...messageReadActions,
   ...messageTranslateActions,
 };

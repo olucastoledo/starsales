@@ -74,3 +74,17 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# executed daily at 0600 UTC
+# generates daily reports for AI agents
+ai_agents_generate_daily_report_job:
+  cron: '0 6 * * *'
+  class: 'AiAgents::GenerateDailyReportJob'
+  queue: scheduled_jobs
+
+# executed every hour
+# checks which AI agent report configs are due and dispatches them
+ai_agents_send_scheduled_report_job:
+  cron: '0 * * * *'
+  class: 'AiAgents::SendScheduledReportJob'
+  queue: low

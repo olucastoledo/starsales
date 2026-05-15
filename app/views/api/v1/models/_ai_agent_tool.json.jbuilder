@@ -1,0 +1,10 @@
+json.id resource.id
+json.ai_agent_id resource.ai_agent_id
+json.name resource.name
+json.description resource.description
+json.tool_type resource.tool_type
+json.schema resource.schema
+json.endpoint_url resource.endpoint_url
+json.enabled resource.enabled
+json.created_at resource.created_at
+json.updated_at resource.updated_at

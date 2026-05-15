@@ -138,6 +138,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.save!
   end
 
+  def assign_ai_agent
+    AiAgentConversationState.where(conversation_id: @conversation.id).destroy_all
+    if params[:ai_agent_id].present?
+      AiAgentConversationState.create!(
+        account_id: Current.account.id,
+        conversation_id: @conversation.id,
+        ai_agent_id: params[:ai_agent_id]
+      )
+    end
+    head :ok
+  end
+
   def destroy
     authorize @conversation, :destroy?
     ::DeleteObjectJob.perform_later(@conversation, Current.user, request.ip)
